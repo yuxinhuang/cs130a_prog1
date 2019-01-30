@@ -15,9 +15,22 @@ HashTable::HashTable(size_t size){
 	}
 	
 	table.resize(size+1);
+	this->setcoef();
 	
-}      
+}   
 
+void HashTable::setcoef(){
+	//a.push_back(10);
+	//a.push_back(89);
+	//a.push_back(210);
+	//a.push_back(162);
+	
+	for (int i=0;i<4;i++){
+		int coe=rand()%(257); 
+		a.push_back(coe);
+	}
+}   
+/*
 void HashTable::setcoef(int a1,int a2,int a3,int a4){
 	a.push_back(a1);
 	a.push_back(a2);
@@ -25,10 +38,12 @@ void HashTable::setcoef(int a1,int a2,int a3,int a4){
 	a.push_back(a4);
 	return;
 }
+*/
 size_t HashTable::hash(string ip){
 	//cout<<"hellp in hash"<<endl;
+	
 
-	setcoef(162,210,89,10);
+	//setcoef(162,210,89,10);
 	//cout<<"hellp in hash"<<endl;
 	std::istringstream iss(ip);
 	std::string byte;
@@ -37,9 +52,9 @@ size_t HashTable::hash(string ip){
 	int ind =0; //index of coef
 	while (getline(iss,byte,'.')){
 
-		int i_byte=stoi(byte);
+		int i_byte=atoi(byte.c_str());
 		address.push_back(i_byte);
-		accumulator+=a[ind]*address[ind];
+		accumulator+=a[3-ind]*address[ind];
 		ind++;
 	}
 	//for (size_t i=0; i<address.size();i++){
@@ -102,7 +117,7 @@ bool HashTable::exists(string ip){
 }
 
 void HashTable::print(){
-	for (int i=3;i>=0;i--){
+	for (int i=0;i<4;i++){
 		cout<<a[i]<<" ";
 	}
 	cout<<endl;//print out the coef

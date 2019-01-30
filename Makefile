@@ -7,9 +7,9 @@ all: ${BINARIES}
 
 
 prog1A: Hash_1.o main_1.o
-	${CXX} $^ -o  $@ -std=c++11
+	${CXX} -std=c++11 $^ -o  $@ 
 prog1B: Hash_2.o main_2.o
-	${CXX} $^ -o  $@ -std=c++11
+	${CXX} -std=c++11 $^ -o  $@ 
 
 clean:
 	/bin/rm -f ${BINARIES} *.o

@@ -5,7 +5,7 @@
 #include <list>
 #include <string>
 #include <vector>
-
+#include <cstdlib>
 class HashTable{
 
 	public:
@@ -14,12 +14,13 @@ class HashTable{
 		void remove(std::string ip); //delete 
 		bool exists(std::string ip); //check if the ip address exists
 		void print(); //stat
-		void setcoef(int a1,int a2,int a3,int a4); //set coeffeicent of hash function 
+		//void setcoef(int a1,int a2,int a3,int a4); set coeffeicent of hash function 
+		
 
  
 	private:
 		std::vector<std::list<std::string> > table ;
-
+		void setcoef();
 		size_t hash(std::string name); //hash function that will output the index of the function;
 		size_t size; //the size of the hashtable
 		std::vector<size_t> max;

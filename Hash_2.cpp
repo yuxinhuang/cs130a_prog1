@@ -11,24 +11,25 @@
 using namespace std;
 HashTable::HashTable(size_t size){
 	
-	//double x=0.693147;
 	this->sucdel=0;
 	this->sucins=0;
 	this->size=Prime(size);
+	//cout<<"size: "<<this->size<<endl;
 	table.resize(Prime(size));
-	//this->b=int(log(size)/x);
-	this->b=8;
-	this->k=4;
-	setcoef(this->b, this->k);
-	/*
+	for (size_t i=0; i<this->size;i++){
+		max.push_back(0);
+	}
+	this->b=log(size)/log(2);
+	
+	
 	if (32%b==0){
 		this->k=32/b;
 	}else{
 		this->k= (32/b)+1; //divided into k groups 
 	}
-	*/
-	//this->setcoef(this->b, this->k);
 	
+	this->setcoef(this->b, this->k);
+	//this->setcoef();
 	
 }      
 
@@ -48,6 +49,19 @@ int HashTable::Prime(int num){
 	return num;
 
 }
+/*
+void HashTable::setcoef(){
+	a.push_back(9);
+	a.push_back(24);
+	a.push_back(55);
+	a.push_back(9);
+	a.push_back(20);
+	a.push_back(58);
+	//a.push_back(2);
+	//a.push_back(13);
+}
+*/
+
 void HashTable::setcoef(int b, int k){ 
 	for (int i=0;i<k;i++){
 		int coe=rand()%(Prime(2^b)); //range from 0 to p-1
@@ -56,24 +70,33 @@ void HashTable::setcoef(int b, int k){
 	}
 	return;
 }
+
 size_t HashTable::hash(string ip){
 
 	
-	int p=Prime(2^b); //prime p;
+	int p=Prime(pow(2,b)); //prime p;
 	string x[k]; //groups of ip address in decimal
 	//string x;
 	string ipbin=convertip(ip); //32 bits
-	int msc=32%b; //len of most significant chunk
-	//x+=ipbin.substr(0,msc);
+	if (32%b==0){
+		int acc=0;
+		for (int i=k-1;i>=0;i--){
+			x[i]=ipbin.substr(acc,b);
+			acc+=b;
+		}
+	}else{
+		int msc=32%b; //len of most significant chunk
 	
-	x[k-1]=ipbin.substr(0,msc);
-	string ip1=ipbin.substr(msc,32-msc);
-	int acc=0;
-	for (int i=k-2;i>=0;i--){
+	
+		x[k-1]=ipbin.substr(0,msc);
+		string ip1=ipbin.substr(msc,32-msc);
+		int acc=0;
+		for (int i=k-2;i>=0;i--){
 		//x+=".";
 		//x+=ip1.substr(acc,b);
-		x[i]=ip1.substr(acc,b);
-		acc+=b;
+			x[i]=ip1.substr(acc,b);
+			acc+=b;
+		}
 	}
 	std::vector<int> add;
 	//string ipn;
@@ -93,6 +116,11 @@ size_t HashTable::hash(string ip){
 		add.push_back(convertToDec(x[p]));
 
 	}
+	/*
+	cout<<"add : "<<endl;
+	for (size_t i=0;i<add.size();i++){
+		cout<<add[i]<<" "<<endl;
+	}*/
 
 
 	//setcoef(162,210,89,10);
@@ -105,6 +133,9 @@ size_t HashTable::hash(string ip){
 	//for (size_t i=0; i<address.size();i++){
 	//	cout<<address[i]<<endl;
 	//}
+	//cout<<"accumulator: "<<accumulator<<endl;
+	//cout<<"p: "<<p<<endl;
+	//cout<<"hash into: "<<accumulator%p<<endl;
 	return accumulator % p;
 
 
@@ -118,6 +149,7 @@ void HashTable::insert(string ip){
 	}
 	//cout<<"hi in insert"<<endl;
 	size_t index=hash (ip);
+	max[index]++;
 	table[index].push_back(ip);
 	this->sucins++;
 	return;
@@ -165,7 +197,7 @@ string HashTable::convertip(string ip){
 	std::string byte;
 	string convert; //a 32 bit ip address
 	while (getline(iss,byte,'.')){
-		convert+=convertToBin(stoi(byte)); 
+		convert+=convertToBin(atoi(byte.c_str())); 
 	}
 	return convert;
 
@@ -193,7 +225,7 @@ string HashTable::convertToBin(int num){
 
 }
 int HashTable::convertToDec(std::string num){
-	int num1=stoi(num);
+	int num1=atoi(num.c_str());
 	//cout<<"convert"<<endl;
 
 	int base=1;
@@ -228,14 +260,27 @@ void HashTable::print(){
 		if (table[i].size()==1){
 			oneslot++;
 		}
+		
+		
+		for (size_t i=0;i<max.size();i++){
+			if (max[i]>=maxsize){
+				maxsize=max[i];
+				maxindex=i;
+			}
+		}
+		/*
 		if (table[i].size()>=maxsize){
 			maxsize=table[i].size();
 			maxindex=i;
 		}
+		*/
 	}
 	cout<<emp<<endl;
 	cout<<oneslot<<endl;
 	cout<<maxsize<<" "<<maxindex<<endl;
+	//cout<<"10: "<<table[244][0]<<endl;
+	//cout<<"prime: "<<Prime(256)<<endl;
+	//cout<<"b: k: "<<this->b<<" "<<this->k<<endl;
 	return;
 
 
