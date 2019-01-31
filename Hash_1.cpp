@@ -1,4 +1,5 @@
-//1_Hash.cpp
+//Hash_1.cpp
+//Yuxin Huang 5557277
 #include <iostream>
 #include <sstream>
 #include <string>
@@ -30,21 +31,8 @@ void HashTable::setcoef(){
 		a.push_back(coe);
 	}
 }   
-/*
-void HashTable::setcoef(int a1,int a2,int a3,int a4){
-	a.push_back(a1);
-	a.push_back(a2);
-	a.push_back(a3);
-	a.push_back(a4);
-	return;
-}
-*/
-size_t HashTable::hash(string ip){
-	//cout<<"hellp in hash"<<endl;
-	
 
-	//setcoef(162,210,89,10);
-	//cout<<"hellp in hash"<<endl;
+size_t HashTable::hash(string ip){
 	std::istringstream iss(ip);
 	std::string byte;
 	size_t accumulator=0;
@@ -57,21 +45,16 @@ size_t HashTable::hash(string ip){
 		accumulator+=a[3-ind]*address[ind];
 		ind++;
 	}
-	//for (size_t i=0; i<address.size();i++){
-	//	cout<<address[i]<<endl;
-	//}
 	return accumulator % (257);
 
 
 }
 void HashTable::insert(string ip){
-	//cout<<"hi in insert"<<endl;
+
 	if (exists(ip)){
-		//cout<<"hi in insert haha"<<endl;
 		cout<<"Error : could not insert "<<ip<<" because it exists."<<endl;
 		return;
 	}
-	//cout<<"hi in insert"<<endl;
 	size_t index=hash (ip);
 	max[index]++;
 	table[index].push_back(ip);
@@ -82,7 +65,7 @@ void HashTable::insert(string ip){
 
 void HashTable::remove(string ip){
 	if (!exists(ip)){
-		cout<<"Error : could not delete "<<ip<<" because it does not exists."<<endl;
+		cout<<"Error : could not delete "<<ip<<" because it does not exist."<<endl;
 		return;
 	}
 	size_t index=hash (ip);
@@ -90,7 +73,7 @@ void HashTable::remove(string ip){
 		if (ip.compare(*p)==0){
 			table[index].erase(p);
 			this->sucdel++;
-			//this->collision[index]--;
+	        
 			return;
 		}
 	}
@@ -98,20 +81,20 @@ void HashTable::remove(string ip){
 }
 
 bool HashTable::exists(string ip){
-	//cout<<"hi in exists"<<endl;
+
 	size_t index=hash(ip);
-	//cout<<"hi in exists"<<endl;
+
 	if (table[index].empty()){
 		return false;
 	}
 	for (list<string>::iterator p = table[index].begin(); p!=table[index].end(); p++){
-		//cout<<"hi in exists before  "<<endl;
+	
 		if (ip.compare(*p)==0){
 
 			return true;
 		}
 	}
-	//cout<<"hi in exists after "<<endl;
+
 	
 	return false;
 }
@@ -134,12 +117,7 @@ void HashTable::print(){
 		if (table[i].size()==1){
 			oneslot++;
 		}
-		/*
-		if (table[i].size()>=maxsize){
-			maxsize=table[i].size();
-			maxindex=i;
-		}
-		*/
+	
 		
 		for (size_t i=0;i<max.size();i++){
 			if (max[i]>=maxsize){

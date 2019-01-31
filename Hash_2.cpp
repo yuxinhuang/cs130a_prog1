@@ -1,4 +1,5 @@
 //Hash_2.cpp
+//Yuxin Huang, 5557277
 
 #include <iostream>
 #include <sstream>
@@ -14,7 +15,6 @@ HashTable::HashTable(size_t size){
 	this->sucdel=0;
 	this->sucins=0;
 	this->size=Prime(size);
-	//cout<<"size: "<<this->size<<endl;
 	table.resize(Prime(size));
 	for (size_t i=0; i<this->size;i++){
 		max.push_back(0);
@@ -29,7 +29,6 @@ HashTable::HashTable(size_t size){
 	}
 	
 	this->setcoef(this->b, this->k);
-	//this->setcoef();
 	
 }      
 
@@ -62,9 +61,10 @@ void HashTable::setcoef(){
 }
 */
 
-void HashTable::setcoef(int b, int k){ 
+void HashTable::setcoef(int b, int k){
+  int p=Prime(pow(2,b));
 	for (int i=0;i<k;i++){
-		int coe=rand()%(Prime(2^b)); //range from 0 to p-1
+		int coe=rand()%(p); //range from 0 to p-1
 		a.push_back(coe);
 
 	}
@@ -76,7 +76,6 @@ size_t HashTable::hash(string ip){
 	
 	int p=Prime(pow(2,b)); //prime p;
 	string x[k]; //groups of ip address in decimal
-	//string x;
 	string ipbin=convertip(ip); //32 bits
 	if (32%b==0){
 		int acc=0;
@@ -92,62 +91,32 @@ size_t HashTable::hash(string ip){
 		string ip1=ipbin.substr(msc,32-msc);
 		int acc=0;
 		for (int i=k-2;i>=0;i--){
-		//x+=".";
-		//x+=ip1.substr(acc,b);
 			x[i]=ip1.substr(acc,b);
 			acc+=b;
 		}
 	}
 	std::vector<int> add;
-	//string ipn;
-	//std::istringstream iss(x);
-	//while(getline(iss, ipn, ".")){
-	//	add.push_back(stoi(ipn));
-
-	//}
-	//int add[k]; 
-	//for (int p=0;p<k;p++){
-	//	std::istringstream iss(x[p]);
-	//	add[p]=stoi(iss);
-	//}
+	
 	//int ip add in decimal
 	for (int p=0;p<k;p++){
-		//cout<<"hi"<<endl;
 		add.push_back(convertToDec(x[p]));
-
 	}
-	/*
-	cout<<"add : "<<endl;
-	for (size_t i=0;i<add.size();i++){
-		cout<<add[i]<<" "<<endl;
-	}*/
 
 
-	//setcoef(162,210,89,10);
-	//cout<<"hellp in hash"<<endl;
 	size_t accumulator=0;
 	for (int j=0;j<k;j++){
 		accumulator+=a[j]*add[j];
 	}
-	
-	//for (size_t i=0; i<address.size();i++){
-	//	cout<<address[i]<<endl;
-	//}
-	//cout<<"accumulator: "<<accumulator<<endl;
-	//cout<<"p: "<<p<<endl;
-	//cout<<"hash into: "<<accumulator%p<<endl;
+
 	return accumulator % p;
 
 
 }
 void HashTable::insert(string ip){
-	//cout<<"hi in insert"<<endl;
 	if (exists(ip)){
-		//cout<<"hi in insert haha"<<endl;
 		cout<<"Error : could not insert "<<ip<<" because it exists."<<endl;
 		return;
 	}
-	//cout<<"hi in insert"<<endl;
 	size_t index=hash (ip);
 	max[index]++;
 	table[index].push_back(ip);
@@ -158,7 +127,7 @@ void HashTable::insert(string ip){
 
 void HashTable::remove(string ip){
 	if (!exists(ip)){
-		cout<<"Error : could not delete "<<ip<<" because it does not exists."<<endl;
+		cout<<"Error : could not delete "<<ip<<" because it does not exist."<<endl;
 		return;
 	}
 	size_t index=hash (ip);
@@ -166,7 +135,6 @@ void HashTable::remove(string ip){
 		if (ip.compare(*p)==0){
 			table[index].erase(p);
 			this->sucdel++;
-			//this->collision[index]--;
 			return;
 		}
 	}
@@ -174,20 +142,17 @@ void HashTable::remove(string ip){
 }
 
 bool HashTable::exists(string ip){
-	//cout<<"hi in exists"<<endl;
 	size_t index=hash(ip);
-	//cout<<"hi in exists"<<endl;
 	if (table[index].empty()){
 		return false;
 	}
 	for (list<string>::iterator p = table[index].begin(); p!=table[index].end(); p++){
-		//cout<<"hi in exists before  "<<endl;
 		if (ip.compare(*p)==0){
 
 			return true;
 		}
 	}
-	//cout<<"hi in exists after "<<endl;
+
 	
 	return false;
 }
@@ -226,7 +191,6 @@ string HashTable::convertToBin(int num){
 }
 int HashTable::convertToDec(std::string num){
 	int num1=atoi(num.c_str());
-	//cout<<"convert"<<endl;
 
 	int base=1;
 	int result=0;
@@ -268,19 +232,12 @@ void HashTable::print(){
 				maxindex=i;
 			}
 		}
-		/*
-		if (table[i].size()>=maxsize){
-			maxsize=table[i].size();
-			maxindex=i;
-		}
-		*/
+	
 	}
 	cout<<emp<<endl;
 	cout<<oneslot<<endl;
 	cout<<maxsize<<" "<<maxindex<<endl;
-	//cout<<"10: "<<table[244][0]<<endl;
-	//cout<<"prime: "<<Prime(256)<<endl;
-	//cout<<"b: k: "<<this->b<<" "<<this->k<<endl;
+
 	return;
 
 

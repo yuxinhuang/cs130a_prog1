@@ -1,4 +1,5 @@
-//1_Hash.h
+//Hash_1.h
+//Yuxin Huang 5557277
 #ifndef HASH_1_H
 #define HASH_1_H
 
@@ -14,7 +15,6 @@ class HashTable{
 		void remove(std::string ip); //delete 
 		bool exists(std::string ip); //check if the ip address exists
 		void print(); //stat
-		//void setcoef(int a1,int a2,int a3,int a4); set coeffeicent of hash function 
 		
 
  
@@ -27,7 +27,7 @@ class HashTable{
 		std::vector<int> a; //coeff
 		int sucins; //successfully inserted
 		int sucdel; //successfully deleted
-		//std::vector<size_t> collision; //number of items in each list
+	
 
 
 };

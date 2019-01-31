@@ -1,4 +1,5 @@
 //main_2.cpp
+//Yuxin Huang 5557277
 #include <iostream>
 #include <sstream>
 #include <fstream>
@@ -10,33 +11,19 @@ int main(){
 	std::string key;
 	std::string ip;
 
-	//std::cout<<"hi"<<std::endl;
 
 	std::cin>>size;
-	
-	//std::cout<<size<<std::endl;
-
-//std::cout<<"hi"<<std::endl;
 
 	
 	HashTable ht(stoi(size));
-	//ht.setcoef(8,4);
-	
-	//ht.insert("121.180.184.61");
 
-
-	//ht.setcoef(162,210,89,10);
-	//std::cout<<"hi"<<std::endl;
-	
 
 	while(!cin.eof()){
-		//std::cout<<"hi"<<std::endl;
-
+	
 		std::cin>>key;
-		//std::cout<<"hi1"<<std::endl;
 		
 		if (key=="insert"){
-			//std::cout<<"hi1"<<std::endl;
+		
 			std::cin>>ip;
 			ht.insert(ip);
 			
@@ -57,7 +44,7 @@ int main(){
 		}
 		if (key=="stat"){
 			ht.print();
-			//std::cout<<"hi1"<<std::endl;
+		
 			return 0;
 		}
 		
